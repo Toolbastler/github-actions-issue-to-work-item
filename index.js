@@ -31,6 +31,7 @@ async function main() {
     else
     {
       console.log("Set values from payload & env");
+      console.log(`Payload: github.context.payload`);
       vm = getValuesFromPayload(github.context.payload, env);
     }
 
