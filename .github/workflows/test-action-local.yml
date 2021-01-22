@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Testing workflow
     steps:       
-    - uses: ./ #Toolbastler/github-actions-issue-to-work-item@master
+    - uses: Toolbastler/github-actions-issue-to-work-item@master
       id: workItem
       env:     
         ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
