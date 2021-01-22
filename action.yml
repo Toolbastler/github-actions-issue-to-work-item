@@ -1,12 +1,12 @@
-name: "GitHub Issues to Azure DevOps"
-description: "This action will Sync your GitHub Issue to Azure Boards when an Issue is created or updated"
+name: "Toolbastler/github-actions-issue-to-work-item "
+description: "This action will Sync your GitHub Issue to Azure Boards when an Issue is created or updated (Folk von danhellem)"
 author: "danhellem"
 branding:
   icon: "book-open"
   color: "green"
 outputs:
   id:
-    description: "id of work item created"
+    description: "Id of created Work Item"
 runs:
   using: "node12"
   main: "index.js"
