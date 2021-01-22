@@ -27,10 +27,14 @@ async function main() {
 
       console.log("Set values from test payload");
       vm = getValuesFromPayload(testPayload, env);
-    } else {
+    } 
+    else
+    {
       console.log("Set values from payload & env");
       vm = getValuesFromPayload(github.context.payload, env);
     }
+
+    console.log("El loco!");
 
     // if the sender in the azure-boards bot, then exit code
     // nothing needs to be done
@@ -113,7 +117,7 @@ async function main() {
       core.setOutput(`id`, `${workItem.id}`);
     }
   } catch (error) {
-    core.setFailed(error);
+    core.setFailed(error.toString());
   }
 }
 
@@ -214,7 +218,7 @@ async function create(vm) {
     console.log("Error: creatWorkItem failed");
     console.log(patchDocument);
     console.log(error);
-    core.setFailed(error);
+    core.setFailed(error.toString());
   }
 
   return workItemSaveResult;
@@ -401,7 +405,7 @@ async function find(vm) {
     console.log(
       "Error: Connecting to organization. Check the spelling of the organization name and ensure your token is scoped correctly."
     );
-    core.setFailed(error);
+    core.setFailed(error.toString());
     return -1;
   }
 
@@ -428,7 +432,7 @@ async function find(vm) {
   } catch (error) {
     console.log("Error: queryByWiql failure");
     console.log(error);
-    core.setFailed(error);
+    core.setFailed(error.toString());
     return -1;
   }
 
@@ -440,7 +444,7 @@ async function find(vm) {
       return result;
     } catch (error) {
       console.log("Error: getWorkItem failure");
-      core.setFailed(error);
+      core.setFailed(error.toString());
       return -1;
     }
   } else {
@@ -498,8 +502,12 @@ async function updateIssueBody(vm, workItem) {
 
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
+
+  console.log("0");
+
   // prettier-ignore
-  var vm = {
+  var vm = 
+  {
 		action: payload.action != undefined ? payload.action : "",
 		url: payload.issue.html_url != undefined ? payload.issue.html_url : "",
 		number: payload.issue.number != undefined ? payload.issue.number : -1,
@@ -534,10 +542,14 @@ function getValuesFromPayload(payload, env) {
 		}
 	};
 
+  console.log("1");
+
   // label is not always part of the payload
   if (payload.label != undefined) {
     vm.label = payload.label.name != undefined ? payload.label.name : "";
   }
+
+  console.log("2");
 
   // comments are not always part of the payload
   // prettier-ignore
@@ -552,6 +564,8 @@ function getValuesFromPayload(payload, env) {
     vm.organization = split[0] != undefined ? split[0] : "";
     vm.repository = split[1] != undefined ? split[1] : "";
   }
+
+  console.log("3");
 
   return vm;
 }
