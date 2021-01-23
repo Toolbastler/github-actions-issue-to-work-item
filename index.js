@@ -418,7 +418,9 @@ async function find(vm) {
       " WHERE [System.TeamProject] = @project " + 
       " AND [System.Title] CONTAINS '(GitHub Issue #" + vm.number + ")'" + 
       " AND [System.Tags] CONTAINS 'GitHub Issue' " + 
-      vm.repository != undefined ? " AND [System.Tags] CONTAINS '" + vm.repository + "'" : "",
+      (vm.repository != undefined 
+            ? " AND [System.Tags] CONTAINS '" + vm.repository + "'" 
+            : ""),
   };
 
   console.log(wiql);
