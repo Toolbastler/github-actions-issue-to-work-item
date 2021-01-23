@@ -9,8 +9,6 @@ main();
 
 async function main() {
 
-  console.log("-1");
-
   try {
     const context = github.context;
     const env = process.env;
@@ -36,8 +34,6 @@ async function main() {
       console.log("Set values from payload & env");
       vm = getValuesFromPayload(github.context.payload, env);
     }
-
-    console.log("El loco!");
 
     // if the sender in the azure-boards bot, then exit code
     // nothing needs to be done
@@ -397,6 +393,10 @@ async function unlabel(vm, workItem) {
 // find work item to see if it already exists
 async function find(vm) {
   let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
+
+  console.log("Finding ...");
+  console.log(vm.env.orgUrl);
+
   let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
   let client = null;
   let workItem = null;
@@ -422,6 +422,8 @@ async function find(vm) {
       vm.repository +
       "'",
   };
+
+  console.log(wiql);
 
   try {
     queryResult = await client.queryByWiql(wiql, teamContext);
@@ -543,14 +545,10 @@ function getValuesFromPayload(payload, env) {
 		}
 	};
 
-  console.log("1");
-
   // label is not always part of the payload
   if (payload.label != undefined) {
     vm.label = payload.label.name != undefined ? payload.label.name : "";
   }
-
-  console.log("2");
 
   // comments are not always part of the payload
   // prettier-ignore
@@ -565,8 +563,6 @@ function getValuesFromPayload(payload, env) {
     vm.organization = split[0] != undefined ? split[0] : "";
     vm.repository = split[1] != undefined ? split[1] : "";
   }
-
-  console.log("3");
 
   return vm;
 }
