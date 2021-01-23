@@ -22,5 +22,6 @@ jobs:
         ado_close_state: 'Closed'
         ado_active_state: 'Active'  
         ado_bypassrules: false
+        issue_id: 1
     - name: Return created WorkItem
       run: echo "WorkItem ${{ steps.workItem.outputs.WorkItemId }} created"

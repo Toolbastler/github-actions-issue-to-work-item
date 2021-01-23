@@ -205,7 +205,7 @@ async function create(vm) {
     if (workItemSaveResult == null) {
       workItemSaveResult = -1;
 
-      console.log("Error: creatWorkItem failed");
+      console.log("Error: createWorkItem failed");
       console.log(`WIT may not be correct: ${vm.env.wit}`);
       core.setFailed();
     }
@@ -214,7 +214,7 @@ async function create(vm) {
   } catch (error) {
     workItemSaveResult = -1;
 
-    console.log("Error: creatWorkItem failed");
+    console.log("Error: createWorkItem failed");
     console.log(patchDocument);
     console.log(error);
     core.setFailed(error.toString());
@@ -570,6 +570,12 @@ function getValuesFromPayload(payload, env) {
     vm.organization = split[0] != undefined ? split[0] : "";
     vm.repository = split[1] != undefined ? split[1] : "";
   }
+
+  console.log(env.issue_id);
+  if (env.issue_id != undefined){
+    vm.number = env.issue_id;
+  }
+  console.log(vm.number);
 
   return vm;
 }
