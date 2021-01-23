@@ -413,16 +413,18 @@ async function find(vm) {
 
   let wiql = {
     query:
-      "SELECT [System.Id], [System.WorkItemType], [System.Description], [System.Title], [System.AssignedTo], [System.State], [System.Tags] FROM workitems WHERE [System.TeamProject] = @project AND [System.Title] CONTAINS '(GitHub Issue #" +
-      vm.number +
-      ")' AND [System.Tags] CONTAINS 'GitHub Issue' AND [System.Tags] CONTAINS '" +
-      vm.repository +
-      "'",
+      "SELECT [System.Id], [System.WorkItemType], [System.Description], [System.Title], [System.AssignedTo], [System.State], [System.Tags] " + 
+      " FROM workitems " + 
+      " WHERE [System.TeamProject] = @project " + 
+      " AND [System.Title] CONTAINS '(GitHub Issue #" + vm.number + ")'" + 
+      " AND [System.Tags] CONTAINS 'GitHub Issue' " + 
+      vm.repository != undefined ? " AND [System.Tags] CONTAINS '" + vm.repository + "'" : "",
   };
 
   console.log(wiql);
 
-  try {
+  try 
+  {
     queryResult = await client.queryByWiql(wiql, teamContext);
 
     // if query results = null then i think we have issue with the project name
@@ -431,20 +433,26 @@ async function find(vm) {
       core.setFailed("Error: Project name appears to be invalid");
       return -1;
     }
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.log("Error: queryByWiql failure");
     console.log(error);
     core.setFailed(error.toString());
     return -1;
   }
 
-  workItem = queryResult.workItems.length > 0 ? queryResult.workItems[0] : null;
+  workItem = queryResult.workItems.length > 0 
+            ? queryResult.workItems[0] 
+            : null;
 
   if (workItem != null) {
-    try {
-      var result = await client.getWorkItem(workItem.id, null, null, 4);
-      return result;
-    } catch (error) {
+    try 
+    {      
+      return await client.getWorkItem(workItem.id, null, null, 4);
+    } 
+    catch (error) 
+    {
       console.log("Error: getWorkItem failure");
       core.setFailed(error.toString());
       return -1;
