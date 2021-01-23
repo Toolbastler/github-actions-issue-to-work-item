@@ -17,10 +17,10 @@ async function main() {
 
     if (debug) {
       // manually set when debugging
-      env.ado_organization = "{organization}";
-      env.ado_token = "{azure devops personal access token}";
-      env.github_token = "{github token}";
-      env.ado_project = "{project name}";
+      env.ado_token = "${{secrets.ADO_PERSONAL_ACCESS_TOKEN}}";
+      env.github_token = "${{secrets.GH_PERSONAL_ACCESS_TOKEN}}";
+      env.ado_organization = "${{secrets.ADO_ORGANIZATION}}";
+      env.ado_project = "${{secrets.ADO_PROJECT}}";
       env.ado_wit = "User Story";
       env.ado_close_state = "Closed";
       env.ado_active_state = "Active";
@@ -393,9 +393,6 @@ async function unlabel(vm, workItem) {
 // find work item to see if it already exists
 async function find(vm) {
   let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
-
-  console.log("Finding ...");
-  console.log(vm.env.orgUrl);
 
   let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
   let client = null;
