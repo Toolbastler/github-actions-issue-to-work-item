@@ -1,11 +1,11 @@
-name: "Toolbastler/github-actions-issue-to-work-item "
-description: "This action will Sync your GitHub Issue to Azure Boards when an Issue is created or updated (Folk von danhellem)"
-author: "danhellem"
+name: Sync GitHub Issue to Azure Boards"
+description: "This action will Sync your GitHub Issue to Azure Boards when an Issue is created or updated"
+author: "danhellem (Toolbastler)"
 branding:
-  icon: "book-open"
-  color: "green"
+  icon: "cast"
+  color: "orange"
 outputs:
-  id:
+  WorkItemId:
     description: "Id of created Work Item"
 runs:
   using: "node12"

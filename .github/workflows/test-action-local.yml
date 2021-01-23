@@ -3,11 +3,12 @@ on:
     types: [opened, edited, deleted, closed, reopened, labeled, unlabeled]
 
 jobs:
-  alert:
+  testing:
     runs-on: ubuntu-latest
-    name: Testing workflow
+    name: WorkItem-Action testen
     steps:       
-    - uses: Toolbastler/github-actions-issue-to-work-item@master
+    - name: Create or Get WorkItem from Issue
+      uses: Toolbastler/github-actions-issue-to-work-item@master
       id: workItem
       env:     
         ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
@@ -16,10 +17,10 @@ jobs:
         ado_project: '${{ secrets.ADO_PROJECT }}'
         ado_area_path: '${{ secrets.ADO_AREA_PATH }}'
         ado_iteration_path: '${{ secrets.ADO_ITERATION_PATH }}'
-        ado_wit: 'GitHub Issue' 
+        ado_wit: 'Issue' 
         ado_new_state: 'New'
         ado_close_state: 'Closed'
         ado_active_state: 'Active'  
         ado_bypassrules: false
-    - name: Get the WorkItem
-      run: echo "WorkItem ${{ steps.workItem.outputs.id }} created"
+    - name: Return created WorkItem
+      run: echo "WorkItem ${{ steps.workItem.outputs.WorkItemId }} created"

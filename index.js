@@ -8,6 +8,9 @@ const testPayload = [];   // used for debugging, cut and paste payload
 main();
 
 async function main() {
+
+  console.log("-1");
+
   try {
     const context = github.context;
     const env = process.env;
@@ -31,7 +34,6 @@ async function main() {
     else
     {
       console.log("Set values from payload & env");
-      console.log(`Payload: github.context.payload`);
       vm = getValuesFromPayload(github.context.payload, env);
     }
 
@@ -504,22 +506,20 @@ async function updateIssueBody(vm, workItem) {
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
 
-  console.log("0");
-
   // prettier-ignore
   var vm = 
   {
 		action: payload.action != undefined ? payload.action : "",
-		url: payload.issue.html_url != undefined ? payload.issue.html_url : "",
-		number: payload.issue.number != undefined ? payload.issue.number : -1,
-		title: payload.issue.title != undefined ? payload.issue.title : "",
-		state: payload.issue.state != undefined ? payload.issue.state : "",
-		user: payload.issue.user.login != undefined ? payload.issue.user.login : "",
-		body: payload.issue.body != undefined ? payload.issue.body : "",
+		url: payload.issue != undefined && payload.issue.html_url != undefined ? payload.issue.html_url : "",
+		number: payload.issue != undefined && payload.issue.number != undefined ? payload.issue.number : -1,
+		title: payload.issue != undefined && payload.issue.title != undefined ? payload.issue.title : "",
+		state: payload.issue != undefined && payload.issue.state != undefined ? payload.issue.state : "",
+		user: payload.issue != undefined && payload.issue.user.login != undefined ? payload.issue.user.login : "",
+    body: payload.issue != undefined && payload.issue.body != undefined ? payload.issue.body : "",
+    closed_at: payload.issue != undefined && payload.issue.closed_at != undefined ? payload.issue.closed_at : null,
 		repo_fullname: payload.repository.full_name != undefined ? payload.repository.full_name : "",
 		repo_name: payload.repository.name != undefined ? payload.repository.name : "",
-		repo_url: payload.repository.html_url != undefined ? payload.repository.html_url : "",
-		closed_at: payload.issue.closed_at != undefined ? payload.issue.closed_at : null,
+		repo_url: payload.repository.html_url != undefined ? payload.repository.html_url : "",		
 		owner: payload.repository.owner != undefined ? payload.repository.owner.login : "",
 		sender_login: payload.sender.login != undefined ? payload.sender.login : '',
 		label: "",
